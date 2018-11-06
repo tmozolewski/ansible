@@ -1,1 +1,4 @@
 ---
+hosts: all
+debug:
+  msg: "Hello world!"
