@@ -34,6 +34,7 @@
     src: "{{ item }}"
     fstab: /tmp/fstab.bind
     state: mounted
+    fstype: ext4
     opts: bind
   with_items:
     - /proc
