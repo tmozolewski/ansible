@@ -62,7 +62,7 @@
   command: "chroot {{ montowanie }} grub-install /dev/{{ dysk }}"
   
 - name: Grub-Update
-  command: "chroot {{ montowanie }} update-grub2
+  command: "chroot {{ montowanie }} update-grub2"
 
 #- name: Zmiana w GRUB
 #  replace:
