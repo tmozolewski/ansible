@@ -14,8 +14,6 @@
     fstype: "{{ fs }}"
     fstab: /tmp/fstab.tmp
     state: mounted
-  loop: "{{ ansible_mounts }}"
-  when: item.device == "/dev/{{ dysk }}{{ partycja_glowna }}"
     
   
 - name: Pobranie wzorca
