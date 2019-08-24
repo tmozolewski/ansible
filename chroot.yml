@@ -1,0 +1,13 @@
+---
+
+- hosts: chroot
+  connection: chroot
+
+
+  tasks:
+    
+    - name: 1
+      command: grub-install /dev/sda
+      
+    - name: 3
+      command:  update-grub2
