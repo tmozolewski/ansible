@@ -27,14 +27,14 @@
 #   regexp: 'ext4'
 #   replace: "{{ fs }}"
 #   dest: "{{ montowanie }}/etc/fstab"
-    
-  - mount:
-      path: "{{ item }}"
-      src: "{{ montowanie }}/{{ item }}"
-      fstype: "{{ fs }}"
-      fstab: /tmp/fstab.bind
-      state: mounted
-      opts: bind
+- name: Montuje potrzbene katalogi    
+  mount:
+    path: "{{ item }}"
+    src: "{{ montowanie }}/{{ item }}"
+    fstype: "{{ fs }}"
+    fstab: /tmp/fstab.bind
+    state: mounted
+    opts: bind
   with_items:
     - /proc
     - /dev
@@ -46,15 +46,15 @@
 #  register: uid
 
 
-  - name: Dodanie do fstab
-    mount:
-      src: "/dev/{{ dysk }}{{ partycja_glowna }}"
-      path: /
-      state: present
-      fstab: "{{ montowanie }}/etc/fstab"
-      fstype: "{{ fs }}"
-      opts: errors=remount-ro
-      passno: 1
+- name: Dodanie do fstab
+  mount:
+    src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+    path: /
+    state: present
+    fstab: "{{ montowanie }}/etc/fstab"
+    fstype: "{{ fs }}"
+    opts: errors=remount-ro
+    passno: 1
 
 #- name: Zmiana w GRUB
 #  replace:
@@ -68,5 +68,5 @@
 #    regexp: 'biosdevname=0'
 #    dest: "{{ montowanie }}/etc/default/grub"
 
-  - name: GRUB
-    shell: "chroot {{ montowanie }}; grub-install /dev/{{ dysk }}; update-grub2"
+- name: GRUB
+  shell: "chroot {{ montowanie }}; grub-install /dev/{{ dysk }}; update-grub2"
