@@ -1,6 +1,42 @@
 ---
 - hosts: all
 
+vars:
+  dysk: 'sda'
+  montowanie: '/mnt/dysk'
+  partycja_glowna: '1
+
+
   tasks:
-  - debug:
-      msg: "Hello world!"
+
+    - name: System plikow - Ubuntu
+      set_fact:
+        fs: 'ext4'
+      when: ansible_distribution == "Ubuntu"
+      tags: dysk, wzorzec
+
+    - name: Partycje
+      import_tasks: dysk_ubuntu.yml
+      when: ansible_distribution == "Ubuntu"
+      tags: dysk
+
+    - name: Tworzenie katalogu montowania
+      file:
+        path: "{{ montowanie }}"
+        state: directory
+        mode: 0755
+      tags: wzorzec, synch, konfiguruj
+
+    - mount:
+        path: "{{ montowanie }}"
+        src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+        fstype: "{{ fs }}"
+        fstab: /tmp/fstab.tmp
+        state: mounted
+      tags: wzorzec, synch, konfiguruj
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Wzorzec
+      import_tasks: wzorzec.yml
+      tags: wzorzec
+      when: ansible_distribution == "Ubuntu"
