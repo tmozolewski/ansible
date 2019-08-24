@@ -22,16 +22,15 @@
         mode: 0755
       tags: wzorzec
 
-    - mount:
+    - name: Montowanie dysku
+      mount:
         path: "{{ montowanie }}"
         src: "/dev/{{ dysk }}{{ partycja_glowna }}"
         fstype: "{{ fs }}"
         fstab: /tmp/fstab.tmp
         state: mounted
-      when: ansible_distribution == "Ubuntu"
       tags: wzorzec
 
     - name: Wzorzec
       import_tasks: wzorzec.yml
-      when: ansible_distribution == "Ubuntu"
       tags: wzorzec
