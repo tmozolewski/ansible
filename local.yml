@@ -1,4 +1,6 @@
 ---
 hosts: all
-debug:
-  msg: "Hello world!"
+
+tasks:
+  debug:
+    msg: "Hello world!"
