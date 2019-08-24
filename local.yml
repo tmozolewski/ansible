@@ -16,8 +16,7 @@
       tags: always
 
     - name: Partycje
-      import_tasks: dysk_ubuntu.yml
-      when: ansible_distribution == "Ubuntu"
+      import_tasks: dysk.yml
       tags: dysk
 
     - name: Wzorzec
