@@ -1,3 +1,5 @@
-127.0.0.1   ansible_host=local
-/mnt/dysk   ansible_host=chroot
+[local]
+127.0.0.1
 
+[chroot]
+/mnt/dysk   ansible_connection=chroot
