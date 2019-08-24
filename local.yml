@@ -6,34 +6,19 @@
     montowanie: '/mnt/dysk'
     partycja_glowna: '1'
     fs: 'ext4'
-
+    zdalne: 'tak'
 
   tasks:
   
     - name: Sprawdzanie systemu
       fail: msg="SYSTEM LIVE MUSI BYC 64-bitowy"
       when: ansible_architecture != "x86_64"
+      tags: always
 
     - name: Partycje
       import_tasks: dysk_ubuntu.yml
       when: ansible_distribution == "Ubuntu"
       tags: dysk
-
-    - name: Tworzenie katalogu montowania
-      file:
-        path: "{{ montowanie }}"
-        state: directory
-        mode: 0755
-      tags: wzorzec
-
-    - name: Montowanie dysku
-      mount:
-        path: "{{ montowanie }}"
-        src: "/dev/{{ dysk }}{{ partycja_glowna }}"
-        fstype: "{{ fs }}"
-        fstab: /tmp/fstab.tmp
-        state: mounted
-      tags: wzorzec
 
     - name: Wzorzec
       import_tasks: wzorzec.yml
