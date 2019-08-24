@@ -1,5 +1,25 @@
 ---
   
+- name: Tworzenie katalogu montowania
+  file:
+    path: "{{ montowanie }}"
+    state: directory
+    mode: 0755
+
+- debug:
+    msg: "zamontowany"
+  when: {{ item }} != "/dev/{{ dysk }}"
+  loop: "{{ ansible_mounts.device }}"
+
+- name: Montowanie dysku
+  mount:
+    path: "{{ montowanie }}"
+    src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+    fstype: "{{ fs }}"
+    fstab: /tmp/fstab.tmp
+    state: mounted
+    
+  
 - name: Pobranie wzorca
   get_url:
   # url: ftp://unetftp:n3tSiak@ftp.netis.pl/wzorce//xubuntu_wzor_czysty_18.04.tar.gz
