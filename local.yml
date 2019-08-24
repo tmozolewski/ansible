@@ -10,28 +10,28 @@
 
   tasks:
 
-  - name: Partycje
-    import_tasks: dysk_ubuntu.yml
-    when: ansible_distribution == "Ubuntu"
-    tags: dysk
+    - name: Partycje
+      import_tasks: dysk_ubuntu.yml
+      when: ansible_distribution == "Ubuntu"
+      tags: dysk
 
-  - name: Tworzenie katalogu montowania
-    file:
-      path: "{{ montowanie }}"
-      state: directory
-      mode: 0755
-    tags: wzorzec, synch, konfiguruj
+    - name: Tworzenie katalogu montowania
+      file:
+        path: "{{ montowanie }}"
+        state: directory
+        mode: 0755
+      tags: wzorzec
 
-  - mount:
-      path: "{{ montowanie }}"
-      src: "/dev/{{ dysk }}{{ partycja_glowna }}"
-      fstype: "{{ fs }}"
-      fstab: /tmp/fstab.tmp
-      state: mounted
-    tags: wzorzec, synch, konfiguruj
-    when: ansible_distribution == "Ubuntu"
+    - mount:
+        path: "{{ montowanie }}"
+        src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+        fstype: "{{ fs }}"
+        fstab: /tmp/fstab.tmp
+        state: mounted
+      when: ansible_distribution == "Ubuntu"
+      tags: wzorzec
 
-  - name: Wzorzec
-    import_tasks: wzorzec.yml
-    tags: wzorzec
-    when: ansible_distribution == "Ubuntu"
+    - name: Wzorzec
+      import_tasks: wzorzec.yml
+      when: ansible_distribution == "Ubuntu"
+      tags: wzorzec
