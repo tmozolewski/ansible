@@ -6,10 +6,6 @@
     state: directory
     mode: 0755
 
-- debug:
-    msg: "zamontowany"
-  when: {{ item }} != "/dev/{{ dysk }}"
-  loop: "{{ ansible_mounts.device }}"
 
 - name: Montowanie dysku
   mount:
@@ -18,6 +14,8 @@
     fstype: "{{ fs }}"
     fstab: /tmp/fstab.tmp
     state: mounted
+  loop: "{{ ansible_mounts }}"
+  when: item.device == "/dev/{{ dysk }}{{ partycja_glowna }}"
     
   
 - name: Pobranie wzorca
