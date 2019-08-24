@@ -68,6 +68,3 @@
 #  replace:
 #    regexp: 'biosdevname=0'
 #    dest: "{{ montowanie }}/etc/default/grub"
-
-- name: GRUB
-  shell: "chroot {{ montowanie }}; grub-install /dev/{{ dysk }}; update-grub2"
