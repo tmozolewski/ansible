@@ -41,5 +41,5 @@
    
 
    
- - import_playbook: chroot.yml
-   tags: wzorzec
+- import_playbook: chroot.yml
+  tags: wzorzec
