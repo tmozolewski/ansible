@@ -9,6 +9,10 @@
 
 
   tasks:
+  
+    - name: Sprawdzanie systemu
+      fail: msg="SYSTEM LIVE MUSI BYC 64-bitowy"
+      when: ansible_architecture != "x86_64"
 
     - name: Partycje
       import_tasks: dysk_ubuntu.yml
