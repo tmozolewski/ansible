@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: local
 
   vars:
     dysk: 'sda'
@@ -38,3 +38,6 @@
     - name: Wzorzec
       import_tasks: wzorzec.yml
       tags: wzorzec
+   
+    - import_playbook: chroot.yml
+      
