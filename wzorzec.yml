@@ -6,6 +6,7 @@
     url: ftp://hiper:nEt!24git@10.0.10.3/xubuntu_wzor_czysty_18.04.tar.gz
   #  url: http://91.239.155.79/xubuntu_wzor_czysty_18.04.tar.gz
     dest: "{{ montowanie }}/"
+    tmp_dest: "{{ montowanie }}/"
     force: yes
 
 
