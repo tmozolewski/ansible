@@ -39,7 +39,8 @@
       import_tasks: wzorzec.yml
       tags: wzorzec
    
-
+    - name: chroot
+      command: chroot /mnt/dysk grub-install /dev/sda
    
-- import_playbook: chroot.yml
-  tags: wzorzec
+#- import_playbook: chroot.yml
+#  tags: wzorzec
