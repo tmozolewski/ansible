@@ -1,0 +1,72 @@
+---
+  
+- name: Pobranie wzorca
+  get_url:
+  # url: ftp://unetftp:n3tSiak@ftp.netis.pl/wzorce//xubuntu_wzor_czysty_18.04.tar.gz
+    url: ftp://hiper:nEt!24git@10.0.10.3/xubuntu_wzor_czysty_18.04.tar.gz
+  #  url: http://91.239.155.79/xubuntu_wzor_czysty_18.04.tar.gz
+    dest: "{{ montowanie }}/"
+    force: yes
+
+
+- name: Rozpakowywanie
+  unarchive:
+    src: "{{ montowanie }}/xubuntu_wzor_czysty_18.04.tar.gz"
+    dest: "{{ montowanie }}/"
+    remote_src: yes
+
+- name: Zmiana dysku w fstab
+  replace:
+    regexp: '/dev/sda2'
+    replace: "/dev/{{ dysk }}{{ partycja_glowna }}"
+    dest: "{{ montowanie }}/etc/fstab"
+
+
+#- name: Zmiana systemu plikow w fstab
+# replace:
+#   regexp: 'ext4'
+#   replace: "{{ fs }}"
+#   dest: "{{ montowanie }}/etc/fstab"
+    
+  - mount:
+      path: "{{ item }}"
+      src: "{{ montowanie }}/{{ item }}"
+      fstype: "{{ fs }}"
+      fstab: /tmp/fstab.bind
+      state: mounted
+      opts: bind
+  with_items:
+    - /proc
+    - /dev
+    - /sys
+
+
+#- name: Sprawdzenie UUID partycji /dev/{{ dysk }}{{ partycja_glowna }}
+#  shell: "blkid -s UUID -o value /dev/{{ dysk }}{{ partycja_glowna }}"
+#  register: uid
+
+
+  - name: Dodanie do fstab
+    mount:
+      src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+      path: /
+      state: present
+      fstab: "{{ montowanie }}/etc/fstab"
+      fstype: "{{ fs }}"
+      opts: errors=remount-ro
+      passno: 1
+
+#- name: Zmiana w GRUB
+#  replace:
+#    regexp: '(GRUB_DISABLE_LINUX_UUID=true)'
+#    replace: '# \1'
+#    dest: "{{ montowanie }}/etc/default/grub"
+
+
+#- name: Zmiana w GRUB
+#  replace:
+#    regexp: 'biosdevname=0'
+#    dest: "{{ montowanie }}/etc/default/grub"
+
+  - name: GRUB
+    shell: "chroot {{ montowanie }}; grub-install /dev/{{ dysk }}; update-grub2"
