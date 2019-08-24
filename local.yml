@@ -4,16 +4,11 @@
   vars:
     dysk: 'sda'
     montowanie: '/mnt/dysk'
-    partycja_glowna: '1
+    partycja_glowna: '1'
+    fs: 'ext4'
 
 
   tasks:
-
-  - name: System plikow - Ubuntu
-    set_fact:
-      fs: 'ext4'
-    when: ansible_distribution == "Ubuntu"
-    tags: dysk, wzorzec
 
   - name: Partycje
     import_tasks: dysk_ubuntu.yml
