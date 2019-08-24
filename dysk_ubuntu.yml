@@ -3,6 +3,12 @@
 - pause:
     prompt: "Formatuje dysk /dev/{{ dysk }}, rozmiar {{ hostvars[inventory_hostname]['ansible_devices'][ dysk ]['size'] }}"
 
+- name: Odmontownie dysku
+      mount:
+        path: "{{ montowanie }}"
+        src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+        state: unmounted
+      tags: wzorzec
 
 - name: Sprawdzanie dysku
   parted:
